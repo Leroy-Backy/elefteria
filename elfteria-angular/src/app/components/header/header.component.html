@@ -1,0 +1,59 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+  <div class="container-fluid">
+    <a class="navbar-brand" routerLink="/event" routerLinkActive="active">Elefteria</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/user" routerLinkActive="active"
+             data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show" >My page</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/feed" routerLinkActive="active"
+             data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show" >Feed</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/search" routerLinkActive="active"
+             data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show" >Users</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" routerLink="/popular" routerLinkActive="active"
+             data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show" >Popular</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/chat" routerLinkActive="active"
+             data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show" >Chat</a>
+        </li>
+      </ul>
+
+      <ng-template #elseBlockLogin>
+        <button mat-button>
+          <a class="nav-link" style="color: white; font-size: 15px" routerLink="/login" routerLinkActive="active"
+             data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show" >Login</a>
+        </button>
+
+        <button mat-button>
+          <a class="nav-link" style="color: white; font-size: 15px" routerLink="/register" routerLinkActive="active"
+             data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show" >Register</a>
+        </button>
+      </ng-template>
+
+      <div *ngIf="loggedIn(); else elseBlockLogin">
+        <button mat-button>
+          <a class="nav-link" style="color: white; font-size: 15px" (click)="logOut()"
+             data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show" >Logout</a>
+        </button>
+      </div>
+
+
+
+
+    </div>
+  </div>
+</nav>
+

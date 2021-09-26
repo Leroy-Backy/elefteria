@@ -1,0 +1,155 @@
+<div class="search-results"
+     infinite-scroll
+     [infiniteScrollDistance]="2"
+     [infiniteScrollThrottle]="50"
+     (scrolled)="onScroll()"
+>
+  <div *ngIf="isContentInit && posts.length < 1">
+    There is no posts on this week
+  </div>
+
+  <!--posts-->
+  <div class="row justify-content-md-center" style="margin-top: 10px">
+
+    <div class="col-md-10 col-lg-7 col-sm-12" *ngFor="let post of posts; let i = index" style="margin-bottom: 10px">
+      <mat-card style="padding: 0">
+
+        <mat-card-title class="postHeader">
+          <a routerLink="/user/{{post.username}}" routerLinkActive="active">{{post.username}}</a>
+
+          <span style="padding-right: 10px; float: right; font-size: 17px; padding-top: 5px">{{post.createdDate | date:'dd-MM-yyyy HH:mm'}}</span>
+        </mat-card-title>
+
+        <mat-card-title style="padding-left: 10px">
+          {{post.title}}
+        </mat-card-title>
+
+        <mat-card-content style="padding-left: 10px">
+          {{post.text}}
+        </mat-card-content>
+
+        <!--post images-->
+        <div *ngIf="post.images != null">
+          <mat-card-content style="padding-left: 27px; padding-top: 10px">
+            <div class="row">
+
+              <div *ngIf="post.images.length == 1; else amountImagesElse">
+                <div *ngFor="let image of post.images" class="col-12" style="padding-bottom: 5px">
+                  <img mat-card-image src="{{image}}" alt="Responsive image" style="width: 100%"/>
+                </div>
+              </div>
+
+              <ng-template #amountImagesElse>
+                <div *ngFor="let image of post.images" class="col-lg-6 col-md-12 col-sm-12" style="padding-bottom: 5px">
+                  <img mat-card-image src="{{image}}" alt="Responsive image" style="width: 100%"/>
+                </div>
+              </ng-template>
+
+
+            </div>
+
+          </mat-card-content>
+        </div>
+
+        <!-- Poll section -->
+        <div *ngIf="post.poll">
+
+          <mat-card style="margin-left: 10px; margin-right: 10px; margin-bottom: 10px; padding-top: 7px">
+
+            <mat-card-title>{{post.poll.question}}</mat-card-title>
+
+
+
+            <div *ngFor="let option of post.poll.options" style="margin-bottom: 5px">
+
+              <button *ngIf="post.poll.voted; else pollElse" mat-button class="voteBar" (click)="usersVoted(option.number, option.votes)">
+                <mat-progress-bar value="{{option.votes.length / post.poll.poll_total_votes * 100}}"
+                                  mode="determinate" style="height: 10px; border-radius: 4px" class="black-progress"></mat-progress-bar>
+
+                {{option.option}} ({{option.votes.length}})
+              </button>
+
+              <ng-template #pollElse>
+                <button mat-button class="voteBar" (click)="voteInPoll(post.poll.id, option.number, i)">
+                  <mat-progress-bar value="0"
+                                    mode="determinate" style="height: 10px; border-radius: 4px" class="black-progress"></mat-progress-bar>
+
+                  {{option.option}}
+                </button>
+
+              </ng-template>
+
+
+            </div>
+          </mat-card>
+
+        </div>
+
+        <mat-card-content>
+
+          <!--Like section-->
+          <div>
+            <div *ngIf="post.liked; else likeElse">
+              <button mat-button (click)="likePost(post.id, i)">
+                <mat-icon>favorite</mat-icon> <span>{{post.amountOfLikes}}</span>
+              </button>
+
+              <button mat-button (click)="usersThatLiked(post.id)">users that liked</button>
+
+            </div>
+            <ng-template #likeElse>
+              <button mat-button (click)="likePost(post.id, i)">
+                <mat-icon>favorite_border</mat-icon> <span>{{post.amountOfLikes}}</span>
+              </button>
+
+              <button mat-button (click)="usersThatLiked(post.id)">users that liked</button>
+
+            </ng-template>
+          </div>
+
+          <!--Create comments section-->
+          <div style="padding-left: 10px; margin-top: 5px">
+            <form #f="ngForm" (ngSubmit)="sendComment(f, post.id, i)" style="display: flex">
+              <input name="commText" class="input" placeholder="write comment here" ngModel/>
+              <button mat-button style="flex: 1; margin-bottom: 7px"><mat-icon>send</mat-icon></button>
+            </form>
+          </div>
+
+
+          <!--Show comments section-->
+          <div *ngIf="post.comments != null && post.comments.length > 0" style="text-align: center">
+            <div *ngIf="post.showComments; else commentsElse">
+              <button mat-button (click)="loadComments(i)">close comments</button>
+            </div>
+            <ng-template #commentsElse>
+              <button mat-button (click)="loadComments(i)">show comments ({{post.comments.length}})</button>
+            </ng-template>
+          </div>
+
+          <div *ngIf="post.showComments" style="padding-bottom: 5px">
+            <div *ngFor="let comment of post.comments" style="padding-left: 10px; padding-right: 10px">
+              <hr>
+              <div style="font-weight: bold">
+                <a routerLink="/user/{{comment.username}}" routerLinkActive="active" style="text-decoration: none; color: black">{{comment.username}}</a>
+
+                <span style="float: right; font-weight: normal">{{comment.createdDate | date:'dd-MM-yyyy HH:mm'}}</span>
+              </div>
+
+              <div>
+                {{comment.text}}
+              </div>
+            </div>
+          </div>
+
+        </mat-card-content>
+      </mat-card>
+
+    </div>
+  </div>
+
+</div>
+
+
+
+
+

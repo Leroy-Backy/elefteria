@@ -1,0 +1,16 @@
+.search-results-container{
+  overflow-y: scroll;
+  height: 80vh;
+
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.search-results-container::-webkit-scrollbar{
+  display: none;
+}
+.icon:hover{
+  width: 30px;
+  height: 28px;
+  border-radius: 3px;
+  background-color: lightgrey;
+}

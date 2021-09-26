@@ -1,0 +1,31 @@
+<div class="row">
+  <div class="col-md-6 mx-auto">
+
+    <mat-card style="background-color: #212529; padding: 0">
+      <mat-card-title style="color: white; text-align: center; padding: 10px">Login</mat-card-title>
+
+      <div style="background-color: white; padding: 10px">
+        <form [formGroup]="loginFormGroup" (ngSubmit)="onSubmit()">
+          <div>
+            <div>Username</div>
+            <input formControlName="username" type="text" class="input" required/>
+          </div>
+
+          <div>
+            <div>Password</div>
+            <input formControlName="password" type="password" class="input" required/>
+          </div>
+
+          <div style="height: 35px; margin-top: 5px">
+            <button mat-button type="submit" style="background-color: #212529; color: white">Login</button>
+          </div>
+
+        </form>
+      </div>
+
+    </mat-card>
+
+    <a routerLink="/changePassword" style="color: gray">Forgot password</a>
+
+  </div>
+</div>

@@ -1,0 +1,76 @@
+<div class="row">
+  <div class="col-md-6 mx-auto">
+
+
+    <mat-card style="background-color: #212529; padding: 0">
+      <mat-card-title style="color: white; text-align: center; padding: 10px">Register</mat-card-title>
+
+      <div style="background-color: white; padding: 10px">
+        <form [formGroup]="registerFormGroup" (ngSubmit)="onSubmit()">
+          <div>
+
+            <div>Email</div>
+            <input formControlName="email" type="text" class="input" required/>
+
+            <div *ngIf="email?.invalid && (email?.dirty || email?.touched)" class="mat-error">
+              <div *ngIf="email?.errors?.required || email?.errors?.notBlank">
+                this field is required
+              </div>
+
+              <div *ngIf="email?.errors?.email">
+                invalid email
+              </div>
+            </div>
+          </div>
+
+          <div>
+
+            <div>Username</div>
+            <input formControlName="username" type="text" class="input" required/>
+
+            <div *ngIf="username?.invalid && (username?.dirty || username?.touched)" class="mat-error">
+              <div *ngIf="username?.errors?.required || username?.errors?.notBlank">
+                this field is required
+              </div>
+
+              <div *ngIf="username?.errors?.pattern">
+                Restricted symbols
+              </div>
+            </div>
+          </div>
+
+          <div>
+
+            <div>Password</div>
+            <input formControlName="password" type="password" class="input" required/>
+
+            <div *ngIf="password?.invalid && (password?.dirty || password?.touched)" class="mat-error">
+              <div *ngIf="password?.errors?.required || password?.errors?.notBlank">
+                this field is required
+              </div>
+            </div>
+          </div>
+
+          <div>
+
+            <div>Confirm Password</div>
+            <input formControlName="confirmPassword" type="password" class="input" required/>
+
+            <div *ngIf="confirmPassword?.invalid && (confirmPassword?.dirty || confirmPassword?.touched)" class="mat-error">
+              <div *ngIf="confirmPassword?.errors?.fieldMatch">
+                passwords doesn't match
+              </div>
+            </div>
+          </div>
+
+          <div style="height: 35px; margin-top: 5px">
+            <button mat-button type="submit" style="background-color: #212529; color: white">Register</button>
+          </div>
+
+        </form>
+      </div>
+
+    </mat-card>
+
+  </div>
+</div>

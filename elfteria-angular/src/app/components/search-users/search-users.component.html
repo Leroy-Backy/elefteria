@@ -1,0 +1,47 @@
+<div>
+  <form #f="ngForm" (ngSubmit)="doSearch(f)" style="display: flex; margin-top: 20px">
+    <input name="keyword" class="input" placeholder="Search users" ngModel/>
+    <button mat-button style="flex: 1; padding-right: 70px">Search</button>
+  </form>
+</div>
+
+<div class="row" style="margin-top: 40px; width: 100%">
+
+  <div class="col-md-12 mx-auto">
+
+    <div class="search-results"
+         infinite-scroll
+         [infiniteScrollDistance]="2"
+         [infiniteScrollThrottle]="50"
+         (scrolled)="onScroll()"
+    >
+
+    <mat-card *ngFor="let user of users" style="margin-bottom: 5px">
+      <div style="display: flex">
+
+        <div *ngIf="user.avatar == null; else imgElse">
+          <img width="100x" height="100px" src="assets/images/avatar_placeholder.png" class="rounded-circle img-fluid" alt="avatar mx-auto white"/>
+        </div>
+        <ng-template #imgElse>
+          <img width="100x" height="100px" src="{{user.avatar}}" class="rounded-circle img-fluid" alt="avatar mx-auto white"/>
+        </ng-template>
+
+        <div style="flex: 1">
+
+          <div style="display: flex">
+            <mat-card-title style="flex: 1">
+              <button mat-button (click)="goToUser(user.username)">{{user.username}}</button>
+            </mat-card-title>
+
+            <mat-card-subtitle style="margin-top: 5px; flex: 1; padding-right: 5px; text-align: right">{{user.firstName}} {{user.lastName}}</mat-card-subtitle>
+          </div>
+
+
+          <mat-card-content style="padding-left: 17px">{{user.status}}</mat-card-content>
+        </div>
+      </div>
+    </mat-card>
+    </div>
+
+  </div>
+</div>

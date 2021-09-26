@@ -1,0 +1,46 @@
+<div class="dialog" mat-dialog-content style="padding: 0">
+<div style="float: right">
+  <button mat-button style="margin-right: 4px" (click)="onClose()">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+
+<div  class="row" style="margin-top: 40px; width: 100%">
+
+  <div class="col-md-12 mx-auto">
+
+    <div class="search-results"
+         infinite-scroll
+         [infiniteScrollDistance]="2"
+         [infiniteScrollThrottle]="50"
+         (scrolled)="onScroll()"
+    ></div>
+
+    <mat-card *ngFor="let user of users" style="margin-bottom: 5px; margin-right: -20px; margin-left: 4px">
+      <div style="display: flex">
+
+        <div *ngIf="user.avatar == null; else imgElse">
+          <img width="100x" height="100px" src="assets/images/avatar_placeholder.png" class="rounded-circle img-fluid" alt="avatar mx-auto white"/>
+        </div>
+        <ng-template #imgElse>
+          <img width="100x" height="100px" src="{{user.avatar}}" class="rounded-circle img-fluid" alt="avatar mx-auto white"/>
+        </ng-template>
+
+        <div style="flex: 1">
+
+          <div class="row">
+            <mat-card-title class="col-md-6 col-sm-12">
+              <button mat-button (click)="goToUser(user.username)">{{user.username}}</button>
+            </mat-card-title>
+
+            <mat-card-subtitle class="col-md-6 col-sm-12" style="margin-top: 5px; padding-left: 29px">{{user.firstName}} {{user.lastName}}</mat-card-subtitle>
+          </div>
+
+
+          <mat-card-content style="padding-left: 17px">{{user.status}}</mat-card-content>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+</div>
+</div>

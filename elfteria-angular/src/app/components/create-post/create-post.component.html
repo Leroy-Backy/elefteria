@@ -1,0 +1,107 @@
+<div mat-dialog-content class="dialog">
+
+<div style="float: right">
+
+  <button mat-button (click)="onClose()">
+    <mat-icon>close</mat-icon>
+  </button>
+
+</div>
+
+<div class="row" style="margin-top: 40px">
+
+  <div class="col-sm-12">
+    <mat-card style="background-color: #212529; padding: 0">
+      <mat-card-title style="color: white; text-align: center; padding: 10px">Create Post</mat-card-title>
+
+      <div style="background-color: white; padding: 10px">
+        <form [formGroup]="postForm" (ngSubmit)="onSubmit()">
+
+          <div>
+            <div>Title</div>
+            <input formControlName="title" type="text" class="input"/>
+          </div>
+
+          <div>
+            <div>Text</div>
+            <textarea formControlName="text" rows="10" cols="50" class="textarea"></textarea>
+          </div>
+
+          <div >
+            <label for="file-input">
+              <mat-icon class="icon" style="padding-left: 2px; margin-top: 4px">perm_media</mat-icon>
+            </label>
+            <input style="display: none" id="file-input" formControlName="file" type="file" accept="image/png, image/jpeg, image/jpg" (change)="addImages($event)" multiple/>
+          </div>
+
+          <button mat-button type="button" (click)="addPoll()">add poll</button>
+
+          <div class="col-sm-12" *ngIf="postForm.get('poll')?.value.length > 0">
+            <mat-card>
+
+              <div>
+                <div>Question</div>
+                <input formControlName="poll_question" type="text" class="input"/>
+
+                <div *ngIf="poll_question?.invalid && (poll_question?.dirty || poll_question?.touched)" class="mat-error">
+                  <div *ngIf="poll_question?.errors?.required || poll_question?.errors?.notBlank">
+                    this field is required
+                  </div>
+
+                  <div *ngIf="poll_question?.errors?.minlength">
+                    Min length is 2 characters long
+                  </div>
+
+                  <div *ngIf="poll_question?.errors?.maxlength">
+                    Max length is 250 characters long
+                  </div>
+                </div>
+              </div>
+
+              <hr>
+
+              <ng-container formArrayName="poll">
+                <div *ngFor="let poll_option of poll.controls; let i = index">
+
+                  <div>Option</div>
+                  <input [formControlName]="i" type="text" class="input"/>
+                  <button mat-button type="button" (click)="removePollOption(i)">remove</button>
+
+                  <div *ngIf="poll_option?.invalid && (poll_option?.dirty || poll_option?.touched)" class="mat-error">
+                    <div *ngIf="poll_option?.errors?.required || poll_option?.errors?.notBlank">
+                      this field is required
+                    </div>
+
+                    <div *ngIf="poll_option?.errors?.minlength">
+                      Min length is 2 characters long
+                    </div>
+
+                    <div *ngIf="poll_option?.errors?.maxlength">
+                      Max length is 125 characters long
+                    </div>
+                  </div>
+
+                </div>
+
+              </ng-container>
+
+              <button mat-button type="button" (click)="addPollOption()">Add option</button>
+
+
+
+            </mat-card>
+          </div>
+
+          <div style="height: 35px; margin-top: 5px; width: 120px">
+            <button mat-button type="submit" style="background-color: #212529; color: white">Submit</button>
+          </div>
+
+          <ngx-spinner type="ball-spin-clockwise-fade"></ngx-spinner>
+
+        </form>
+      </div>
+    </mat-card>
+  </div>
+
+</div>
+</div>

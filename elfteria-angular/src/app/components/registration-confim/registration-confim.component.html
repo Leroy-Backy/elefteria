@@ -1,0 +1,19 @@
+<div *ngIf="error" class="mat-display-1">
+  Oops, something went wrong, try again
+</div>
+
+<div *ngIf="activated" style="text-align: center">
+  <div class="mat-display-1">
+    You Successfully registered!
+  </div>
+
+  <div>
+    <img src="assets/images/Vince_Mcmahon.gif" alt="Басы тектонек" width="426" height="320">
+  </div>
+
+  <div>
+    {{this.playAudio()}}
+  </div>
+
+  <button mat-button (click)="toLogin()">Login</button>
+</div>

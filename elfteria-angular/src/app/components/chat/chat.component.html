@@ -1,0 +1,64 @@
+<!--messages-->
+<!---->
+<div class="row msg-container" >
+  <div class="search-results-container" #scrollMe
+       infinite-scroll
+       [infiniteScrollDistance]="2"
+       [infiniteScrollThrottle]="50"
+       [infiniteScrollUpDistance]="4"
+       [scrollWindow]="false"
+       (scrolledUp)="onScroll()"
+  >
+
+    <div *ngFor="let message of messages">
+
+      <mat-card style="padding: 0; margin-bottom: 10px">
+        <mat-card-title>
+          <a style="text-decoration: none; color: black; padding-left: 10px" routerLink="/user/{{message.user}}" routerLinkActive="active">{{message.user}}</a>
+
+          <span style="padding-right: 10px; float: right; font-size: 13px; padding-top: 5px">{{message.createdDate | date:'dd-MM-yyyy HH:mm'}}</span>
+        </mat-card-title>
+
+        <mat-card-content style="padding-left: 10px">
+          {{message.message}}
+        </mat-card-content>
+
+        <mat-card-content *ngIf="message.image">
+          <img style="max-width: 100%; max-height: 50%" src="{{message.image}}"/>
+        </mat-card-content>
+      </mat-card>
+
+    </div>
+
+  </div>
+
+
+</div>
+
+
+<div class="row" style="margin-top: 20px">
+
+  <div class="col-1" style="text-align: center">
+    <div style="margin-top: 3px">
+      <label for="file-input">
+        <mat-icon class="icon">perm_media</mat-icon>
+      </label>
+      <input style="display: none" id="file-input" type="file" accept="image/png, image/jpeg, image/jpg" (change)="setImage($event)"/>
+    </div>
+  </div>
+
+  <div class="col-11">
+    <form (ngSubmit)="sendMessage(sendForm)" #sendForm="ngForm">
+      <div class="row">
+        <div class="col-9">
+          <input type="text" class="form-control" name="message" id="input-message" ngModel>
+        </div>
+        <div class="col-3">
+          <button type="submit" mat-button style="width: 100%; background-color: #212529; color: white">Send</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+

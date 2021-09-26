@@ -1,0 +1,41 @@
+.input{
+  width: 100%;
+  border-radius: 5px;
+  border-style: solid;
+  height: 35px;
+  margin-bottom: 5px;
+}
+.textarea{
+  width: 100%;
+  border-radius: 5px;
+  border-style: solid;
+  margin-bottom: 5px;
+  border-width: 2px;
+}
+.fileInput{
+  width: 120px;
+  height: 35px;
+  background-color: #212529;
+  border-radius: 4px;
+  color: white;
+  text-align: center;
+  font-weight: 500;
+  padding-top: 7px;
+  border-style: none;
+}
+.fileInput:hover{
+  width: 116px;
+  height: 33px;
+  margin: 1px;
+}
+
+.icon:hover{
+  width: 30px;
+  height: 28px;
+  border-radius: 3px;
+  padding-left: 2px;
+  background-color: lightgrey;
+}
+.dialog::-webkit-scrollbar{
+  display: none;
+}
