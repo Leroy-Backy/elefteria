@@ -40,7 +40,8 @@ export class EditProfileComponent implements OnInit {
     this.editFormGroup = this.formBuilder.group({
       firstName: new FormControl("", [Validators.required, Validators.minLength(2), Validators.maxLength(50), MyValidators.notBlank]),
       lastName: new FormControl("", [Validators.required, Validators.minLength(2), Validators.maxLength(50), MyValidators.notBlank]),
-      status: new FormControl("", [Validators.required, Validators.minLength(2), Validators.maxLength(255), MyValidators.notBlank]),
+      // status: new FormControl("", [Validators.required, Validators.minLength(2), Validators.maxLength(255), MyValidators.notBlank]),
+      status: new FormControl("")
     })
   }
 

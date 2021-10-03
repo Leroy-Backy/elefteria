@@ -16,8 +16,6 @@ public class Image {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private byte[] bytes;
-
     private String fileName;
 
     @ManyToOne
@@ -25,10 +23,6 @@ public class Image {
     private Post post;
 
     public Image(){}
-
-    public Image(byte[] bytes) {
-        this.bytes = bytes;
-    }
 
     public Image(String fileName){this.fileName = fileName;}
 }

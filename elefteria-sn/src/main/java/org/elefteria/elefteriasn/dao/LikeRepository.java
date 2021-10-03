@@ -15,4 +15,6 @@ public interface LikeRepository extends JpaRepository<Like, Long> {
 
     @Query("select l.username from Like l where l.post.id = ?1")
     Set<String> getLikesUsernameByPostId(Long postId);
+
+    int countByPostId(Long postId);
 }

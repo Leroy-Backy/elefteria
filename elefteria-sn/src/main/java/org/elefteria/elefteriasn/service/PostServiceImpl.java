@@ -145,17 +145,19 @@ public class PostServiceImpl implements PostService{
         Optional<Like> likeOptional = likeRepository.findByPostIdAndUsername(postId, username);
         String message;
 
-
+        int amount = likeRepository.countByPostId(postId);
 
         if(likeOptional.isEmpty()){
             message = "liked";
             Like like = new Like(username);
             post.addLike(like);
+            post.setAmountOfLikes(amount + 1);
             likeRepository.save(like);
         } else {
             message = "unliked";
             Like like = likeOptional.get();
             post.removeLike(like);
+            post.setAmountOfLikes(amount - 1);
             likeRepository.delete(like);
         }
 

@@ -20,10 +20,10 @@
       <div style="display: flex">
 
         <div *ngIf="user.avatar == null; else imgElse">
-          <img width="100x" height="100px" src="assets/images/avatar_placeholder.png" class="rounded-circle img-fluid" alt="avatar mx-auto white"/>
+          <img style="height: 150px" src="assets/images/avatar_placeholder.png" class="rounded-circle img-fluid" alt="avatar mx-auto white"/>
         </div>
         <ng-template #imgElse>
-          <img width="100x" height="100px" src="{{user.avatar}}" class="rounded-circle img-fluid" alt="avatar mx-auto white"/>
+          <img style="height: 150px" src="{{user.avatar}}" class="rounded-circle img-fluid" alt="avatar mx-auto white"/>
         </ng-template>
 
         <div style="flex: 1">

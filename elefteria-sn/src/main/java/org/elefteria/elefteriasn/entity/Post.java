@@ -71,7 +71,7 @@ public class Post {
 
         likes.add(like);
         like.setPost(this);
-        amountOfLikes++;
+//        amountOfLikes++;
     }
 
     public void removeLike(Like like){
@@ -79,6 +79,6 @@ public class Post {
             this.likes.remove(like);
         }
         like.setPost(null);
-        amountOfLikes--;
+//        amountOfLikes--;
     }
 }

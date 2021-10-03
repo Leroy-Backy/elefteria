@@ -1,5 +1,6 @@
 package org.elefteria.elefteriasn.controller;
 
+import org.elefteria.elefteriasn.dao.LikeRepository;
 import org.elefteria.elefteriasn.dto.PostDto;
 import org.elefteria.elefteriasn.response.SuccessResponse;
 import org.elefteria.elefteriasn.service.PostService;

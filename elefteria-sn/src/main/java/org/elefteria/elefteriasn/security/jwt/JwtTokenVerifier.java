@@ -5,6 +5,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
+import org.elefteria.elefteriasn.exception.MyUnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -87,7 +88,7 @@ public class JwtTokenVerifier extends OncePerRequestFilter {
 
             return authentication;
         } catch (JwtException e){
-            throw new IllegalStateException("Token " + token + " cannot be truest");
+            throw new MyUnauthorizedException("Token " + token + " cannot be truest");
         }
     }
 }

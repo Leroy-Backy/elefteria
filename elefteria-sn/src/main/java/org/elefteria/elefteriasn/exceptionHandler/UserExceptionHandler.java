@@ -1,7 +1,8 @@
-package org.elefteria.elefteriasn.advice;
+package org.elefteria.elefteriasn.exceptionHandler;
 
 import org.elefteria.elefteriasn.exception.MyEntityNotFoundException;
 import org.elefteria.elefteriasn.exception.MyForbiddenException;
+import org.elefteria.elefteriasn.exception.MyUnauthorizedException;
 import org.elefteria.elefteriasn.response.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +11,17 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
 public class UserExceptionHandler {
+
+    @ExceptionHandler
+    public ResponseEntity<ErrorResponse> myEntityErrorHandler(MyUnauthorizedException e) {
+        ErrorResponse errorResponse = new ErrorResponse(
+                HttpStatus.UNAUTHORIZED.value(),
+                e.getMessage(),
+                System.currentTimeMillis()
+        );
+
+        return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
+    }
 
     @ExceptionHandler
     public ResponseEntity<ErrorResponse> myEntityErrorHandler(MyForbiddenException e) {

@@ -75,6 +75,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers( "/api/users/changePassword").permitAll()
                 .antMatchers(HttpMethod.GET,"/api/images/{.+}").permitAll()
                 .antMatchers("/ws/**").permitAll()
+                .antMatchers("/testLikes/*").permitAll()
                 .anyRequest()
                 .authenticated();
     }

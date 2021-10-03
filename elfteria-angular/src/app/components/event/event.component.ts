@@ -114,16 +114,16 @@ export class EventComponent implements OnInit, AfterContentInit {
 
     this.commentService.createComment(postId, text).subscribe(
       response => {
-        if(response.status == 200){
-          // @ts-ignore
-          comment.createdDate = Date.now()
-          this.posts[idx].comments.push(comment)
-        }
+
       },
       err => {
+        this.posts[idx].comments.splice(0, 1)
         console.log(err)
       }
     )
+    // @ts-ignore
+    comment.createdDate = Date.now()
+    this.posts[idx].comments.unshift(comment)
 
     f.reset()
   }

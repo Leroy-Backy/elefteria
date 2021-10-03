@@ -104,17 +104,15 @@ export class FeedComponent implements OnInit, AfterContentInit {
 
     this.commentService.createComment(postId, text).subscribe(
       response => {
-        if(response.status == 200){
-          // @ts-ignore
-          comment.createdDate = Date.now()
-          this.posts[idx].comments.push(comment)
-        }
       },
       err => {
+        this.posts[idx].comments.splice(0, 1)
         console.log(err.message)
-        alert(err.message)
       }
     )
+    // @ts-ignore
+    comment.createdDate = Date.now()
+    this.posts[idx].comments.unshift(comment)
 
     f.reset()
   }
