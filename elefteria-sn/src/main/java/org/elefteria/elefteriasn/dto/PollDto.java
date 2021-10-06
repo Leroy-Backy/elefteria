@@ -5,6 +5,7 @@ import lombok.Data;
 import org.elefteria.elefteriasn.entity.Poll;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 @Data
@@ -21,5 +22,14 @@ public class PollDto {
         this.question = poll.getQuestion();
 
         poll.getOptions().forEach(option -> options.add(new PollOptionDto(option)));
+        // sort by number order
+        options.sort(new Comparator<PollOptionDto>() {
+            @Override
+            public int compare(PollOptionDto o1, PollOptionDto o2) {
+                if(o1.getNumber() < o2.getNumber()) return -1;
+                if(o1.getNumber() > o2.getNumber()) return 1;
+                return 0;
+            }
+        });
     }
 }

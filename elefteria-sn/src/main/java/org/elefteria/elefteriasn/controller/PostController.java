@@ -1,6 +1,5 @@
 package org.elefteria.elefteriasn.controller;
 
-import org.elefteria.elefteriasn.dao.LikeRepository;
 import org.elefteria.elefteriasn.dto.PostDto;
 import org.elefteria.elefteriasn.response.SuccessResponse;
 import org.elefteria.elefteriasn.service.PostService;
@@ -68,6 +67,12 @@ public class PostController {
         Pageable pageable = PageRequest.of(page, size);
 
         return postService.getPostsFeed(pageable);
+    }
+
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER', 'ROLE_CITIZEN')")
+    @GetMapping("/{postId}")
+    public PostDto getPostById(@PathVariable("postId") Long postId){
+        return postService.getPostById(postId);
     }
 
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER', 'ROLE_CITIZEN')")

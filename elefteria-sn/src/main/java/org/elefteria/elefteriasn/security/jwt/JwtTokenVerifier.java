@@ -52,10 +52,16 @@ public class JwtTokenVerifier extends OncePerRequestFilter {
         // Remove prefix from token
         String token = authHeader.replace(jwtConfig.getTokenPrefix(), "");
 
-        Authentication authentication = getAuthenticationFromToken(token, secretKey);
+        try {
+            Authentication authentication = getAuthenticationFromToken(token, secretKey);
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
 
+        } catch (Exception e){
+            httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+
+            throw new MyUnauthorizedException(e.getMessage());
+        }
         // Send to the next filter
         filterChain.doFilter(httpServletRequest, httpServletResponse);
     }

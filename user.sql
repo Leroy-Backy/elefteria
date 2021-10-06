@@ -149,10 +149,23 @@ references poll_option(id));
 
 alter table poll_option_user add constraint uq_option_user unique(user_id, poll_option_id);
 
-
-
-
-
+create table notification(
+id int(20) primary key not null auto_increment,
+user_owner_id int(20) not null,
+user_actor_id int(20),
+created_date datetime, 
+`read` bool default false,
+type enum('LIKE', 'COMMENT', 'SUBSCRIPTION'),
+post_id int(20) default null,
+comment_id int(20) default null,
+constraint fk_user_owner_notification foreign key 
+(user_owner_id) references user(id),
+constraint fk_user_actor_notification foreign key 
+(user_actor_id) references user(id),
+constraint fk_post_notification foreign key 
+(post_id) references post(id),
+constraint fk_comment_notification foreign key 
+(comment_id) references comment(id));
 
 
 

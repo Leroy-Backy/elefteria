@@ -1,7 +1,11 @@
 package org.elefteria.elefteriasn;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.elefteria.elefteriasn.controller.UserController;
+import org.elefteria.elefteriasn.dto.PostDto;
 import org.elefteria.elefteriasn.dto.UserDto;
+import org.elefteria.elefteriasn.security.jwt.UsernameAndPasswordRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -12,6 +16,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.util.TimeZone;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -27,11 +34,40 @@ class ElefteriaSnApplicationTests {
 	@Autowired
 	private TestRestTemplate  restTemplate;
 
-	private String jwtToken = "Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJvYmFtYW1vbmtleSIsImF1dGhvcml0aWVzIjpbeyJhdXRob3JpdHkiOiJST0xFX1VTRVIifV0sImlhdCI6MTYzMjkxNTY0NywiZXhwIjoxNjMzMzA1NjAwfQ.sbOmdNy655rSUqJB2efZ0w3Qct3luyqWBEFxzaKvmDD8LFrBgf6g4HuxByVY2GD_";
+	private String jwtToken = "Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJvYmFtYW1vbmtleSIsImF1dGhvcml0aWVzIjpbeyJhdXRob3JpdHkiOiJST0xFX1VTRVIifV0sImlhdCI6MTYzMzM3MzQ3NCwiZXhwIjoxNjMzNzMwNDAwfQ.GL_7WLd63l_ERrpl4mEdtWJQRbcGMXIo13FaAaufIm7W1SAgkPpT-6zQRXvXL9SH";
 
 	@Test
 	void contextLoads() {
 		assertThat(userController).isNotNull();
+	}
+
+	@Test
+	void login() throws JsonProcessingException {
+		UsernameAndPasswordRequest usernameAndPasswordRequest = new UsernameAndPasswordRequest("obamamonkey", "obama");
+
+		String requestBody = new ObjectMapper().writeValueAsString(usernameAndPasswordRequest);
+
+		HttpEntity<String> loginEntity = new HttpEntity<>(requestBody, getHeaders());
+
+		HttpHeaders headers = restTemplate.exchange("http://localhost:" + port + "/api/login", HttpMethod.POST, loginEntity, Object.class).getHeaders();
+
+		jwtToken = headers.get("Authorization").get(0);
+
+		System.out.println(jwtToken);
+	}
+
+	@Test
+	public void getPostShouldReturnPost() {
+		HttpHeaders headers = getHeaders();
+		headers.set("Authorization", jwtToken);
+		HttpEntity<String> jwtEntity = new HttpEntity<>(headers);
+
+		PostDto postDto = this.restTemplate.exchange("http://localhost:" + port + "/api/posts/1", HttpMethod.GET, jwtEntity, PostDto.class).getBody();
+
+		assertThat(postDto.getTitle()).isEqualTo("First post made from postman");
+		assertThat(postDto.getText()).isEqualTo("Testing new way to storing images");
+		assertThat(postDto.getUsername()).isEqualTo("obamamonkey");
+		assertThat(postDto.getCreatedDate()).isEqualTo(LocalDateTime.ofInstant(Instant.ofEpochMilli(1630174624000L), TimeZone.getDefault().toZoneId()));
 	}
 
 	@Test

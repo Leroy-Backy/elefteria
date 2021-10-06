@@ -33,20 +33,25 @@ public class PostServiceImpl implements PostService{
     private PostRepository postRepository;
     private UserRepository userRepository;
     private LikeRepository likeRepository;
-    private FileService fileService;
     private PollRepository pollRepository;
+
+    private FileService fileService;
+//    private NotificationService notificationService;
 
     @Autowired
     public PostServiceImpl(PostRepository postRepository,
                            UserRepository userRepository,
                            LikeRepository likeRepository,
                            FileService fileService,
-                           PollRepository pollRepository) {
+                           PollRepository pollRepository
+//                           NotificationService notificationService
+    ) {
         this.postRepository = postRepository;
         this.userRepository = userRepository;
         this.likeRepository = likeRepository;
         this.fileService = fileService;
         this.pollRepository = pollRepository;
+//        this.notificationService = notificationService;
     }
 
     @Override
@@ -153,6 +158,7 @@ public class PostServiceImpl implements PostService{
             post.addLike(like);
             post.setAmountOfLikes(amount + 1);
             likeRepository.save(like);
+            //notificationService.createLikeNotification(post.getUser(), userRepository.findByUsername(username).get(), post);
         } else {
             message = "unliked";
             Like like = likeOptional.get();
@@ -277,6 +283,17 @@ public class PostServiceImpl implements PostService{
 
         if(postOptional.isEmpty())
             throw new MyEntityNotFoundException("Not found posts for user");
+
+        return new PostDto(postOptional.get());
+    }
+
+    @Override
+    @Transactional
+    public PostDto getPostById(Long id) {
+        Optional<Post> postOptional = postRepository.findById(id);
+
+        if(postOptional.isEmpty())
+            throw new MyEntityNotFoundException("Post not found with id " + id);
 
         return new PostDto(postOptional.get());
     }

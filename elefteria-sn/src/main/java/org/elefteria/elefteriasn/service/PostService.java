@@ -28,4 +28,6 @@ public interface PostService {
     Set<String> getLikesByPostId(Long postId);
     
     PostDto getLastPostForCurrentUser();
+
+    PostDto getPostById(Long id);
 }
