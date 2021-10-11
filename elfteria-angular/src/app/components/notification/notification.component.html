@@ -1,0 +1,50 @@
+<div *ngFor="let notification of notifications">
+
+  <mat-card style="padding: 5px; margin-bottom: 5px;">
+
+    <div style="display: flex">
+      <div style="flex: 0 0 80px; padding-left: 9px">
+        <a routerLink="/user/{{notification.actorUsername}}" routerLinkActive="active" style="color: black">
+          <div *ngIf="notification.actorImage == null; else imgElse">
+            <img style="height: 80px" src="assets/images/avatar_placeholder.png" class="rounded-circle img-fluid" alt="avatar mx-auto white"/>
+          </div>
+          <ng-template #imgElse>
+            <img style="height: 80px" src="{{notification.actorImage}}" class="rounded-circle img-fluid" alt="avatar mx-auto white"/>
+          </ng-template>
+        </a>
+      </div>
+
+      <div style="margin-left: 5px; padding-top: 15px; flex: 0 0 calc(100% - 85px)">
+        <mat-card-subtitle style="margin-bottom: 0">
+          {{notification.createdDate | date:'dd-MM-yyyy HH:mm'}}
+          <span *ngIf="!notification.read" style="color: green">new</span>
+        </mat-card-subtitle>
+
+        <div *ngIf="notification.type == subscription">
+          <mat-card-content style="font-size: 17px">
+            User <a routerLink="/user/{{notification.actorUsername}}" routerLinkActive="active" style="color: black">{{notification.actorUsername}}</a> now follow you!
+          </mat-card-content>
+        </div>
+
+        <div *ngIf="notification.type == like">
+          <mat-card-content style="font-size: 17px">
+            User <a routerLink="/user/{{notification.actorUsername}}" routerLinkActive="active" style="color: black">{{notification.actorUsername}}</a> liked your post from <button mat-button (click)="openPost(notification.postId)">{{notification.postCreatedDate | date:'dd-MM-yyyy HH:mm'}}</button>
+          </mat-card-content>
+        </div>
+
+        <div *ngIf="notification.type == comment">
+          <mat-card-content style="font-size: 17px">
+            User <a routerLink="/user/{{notification.actorUsername}}" routerLinkActive="active" style="color: black">{{notification.actorUsername}}</a> left comment under your post from <button mat-button (click)="openPost(notification.postId)">{{notification.postCreatedDate | date:'dd-MM-yyyy HH:mm'}}</button>
+          </mat-card-content>
+
+          <mat-card>
+            <mat-card-content>{{notification.commentText}}</mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+
+    </div>
+
+  </mat-card>
+
+</div>

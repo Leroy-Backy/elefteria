@@ -49,8 +49,6 @@ public class UserDto {
         if(user.getUserInfo().getAvatar() != null){
             this.avatar = user.getUserInfo().getAvatar().getFileName();
         }
-
-
     }
 
     public UserDto(Long id, String email, String username, UserInfo userInfo, Set<Role> roles) {

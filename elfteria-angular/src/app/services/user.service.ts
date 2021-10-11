@@ -52,8 +52,7 @@ export class UserService {
 
   followUser(id: number){
     return this.httpClient.post(`${this.usersUrl}/${id}/follow`, {}, {observe: "response"}).subscribe(
-      response => console.log(response.body),
-      err => console.log(err.message)
+      response => {}, err => { console.log(err) }
     )
   }
 

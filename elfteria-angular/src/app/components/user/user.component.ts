@@ -1,20 +1,12 @@
-import {AfterContentInit, AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {AfterContentInit, AfterViewInit, Component, OnInit} from '@angular/core';
 import {UserService} from "../../services/user.service";
 import {User} from "../../models/User";
 import {AuthService} from "../../services/auth.service";
 import {ActivatedRoute, Router} from "@angular/router";
-import {MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog";
+import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
 import {EditProfileComponent} from "../edit-profile/edit-profile.component";
 import {CreatePostComponent} from "../create-post/create-post.component";
-import {Post} from "../../models/Post";
-import {PostService} from "../../services/post.service";
-import {UsersLikedComponent} from "../users-liked/users-liked.component";
-import {CommentService} from "../../services/comment.service";
-import {NgForm} from "@angular/forms";
-import {Comment} from "../../models/Comment";
 import {ShowUsersComponent} from "../show-users/show-users.component";
-import {ConfirmationDialogComponent} from "../confirmation-dialog/confirmation-dialog.component";
-import {StaticMethods} from "../../models/StaticMethods";
 import {PostMode} from "../posts/PostMode";
 import {BehaviorSubject} from "rxjs";
 
@@ -29,9 +21,7 @@ export class UserComponent implements OnInit, AfterContentInit, AfterViewInit {
               private authService: AuthService,
               private route: ActivatedRoute,
               private dialog: MatDialog,
-              private router: Router,
-              private postService: PostService,
-              private commentService: CommentService) { }
+              private router: Router) { }
 
   //@ts-ignore
   imagesUrl: string = window["cfgApiBaseUrl"] + "/api/images/";
@@ -46,7 +36,7 @@ export class UserComponent implements OnInit, AfterContentInit, AfterViewInit {
   followWriting: string = "Follow"
 
   isContentInit: boolean = false;
-  // call when have to load new users posts
+  // call when have to load new user's posts
   userId: BehaviorSubject<number> = new BehaviorSubject<number>(0);
 
   ngOnInit(): void {

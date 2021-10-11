@@ -36,22 +36,22 @@ public class PostServiceImpl implements PostService{
     private PollRepository pollRepository;
 
     private FileService fileService;
-//    private NotificationService notificationService;
+    private NotificationService notificationService;
 
     @Autowired
     public PostServiceImpl(PostRepository postRepository,
                            UserRepository userRepository,
                            LikeRepository likeRepository,
                            FileService fileService,
-                           PollRepository pollRepository
-//                           NotificationService notificationService
+                           PollRepository pollRepository,
+                           NotificationService notificationService
     ) {
         this.postRepository = postRepository;
         this.userRepository = userRepository;
         this.likeRepository = likeRepository;
         this.fileService = fileService;
         this.pollRepository = pollRepository;
-//        this.notificationService = notificationService;
+        this.notificationService = notificationService;
     }
 
     @Override
@@ -158,7 +158,7 @@ public class PostServiceImpl implements PostService{
             post.addLike(like);
             post.setAmountOfLikes(amount + 1);
             likeRepository.save(like);
-            //notificationService.createLikeNotification(post.getUser(), userRepository.findByUsername(username).get(), post);
+            notificationService.createLikeNotification(username, post);
         } else {
             message = "unliked";
             Like like = likeOptional.get();

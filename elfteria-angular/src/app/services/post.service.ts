@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Post} from "../models/Post";
-import {BehaviorSubject, Observable} from "rxjs";
+import {BehaviorSubject, Observable, Subject} from "rxjs";
 import {Poll} from "../models/Poll";
 
 @Injectable({
@@ -12,7 +12,7 @@ export class PostService {
   // @ts-ignore
   private postsUrl: string = window["cfgApiBaseUrl"] + "/api/posts"
 
-  public lastPost: BehaviorSubject<Post> = new BehaviorSubject<Post>(new Post());
+  public lastPost: Subject<Post> = new Subject<Post>();
 
   constructor(private httpClient: HttpClient) { }
 
@@ -22,6 +22,10 @@ export class PostService {
     this.httpClient.get<Post>(url).subscribe(data => {
       this.lastPost.next(data)
     })
+  }
+
+  getPostById(postId: number): Observable<Post>{
+    return this.httpClient.get<Post>(`${this.postsUrl}/${postId}`)
   }
 
   voteInPoll(pollId: number, optionNumber: number){
@@ -44,12 +48,7 @@ export class PostService {
 
   likePost(id: number){
     this.httpClient.post(`${this.postsUrl}/${id}/like`, {}, {observe: "response"}).subscribe(
-      response => {
-        console.log(response.body)
-      },
-      error => {
-        console.log(error.message)
-      }
+      response => {}, error => { console.log(error) }
     )
   }
 

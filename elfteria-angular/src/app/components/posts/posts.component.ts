@@ -11,7 +11,7 @@ import {NgForm} from "@angular/forms";
 import {Comment} from "../../models/Comment";
 import {UsersLikedComponent} from "../users-liked/users-liked.component";
 import {ConfirmationDialogComponent} from "../confirmation-dialog/confirmation-dialog.component";
-import {BehaviorSubject} from "rxjs";
+import {BehaviorSubject, Subject} from "rxjs";
 
 @Component({
   selector: 'app-posts',
@@ -20,11 +20,13 @@ import {BehaviorSubject} from "rxjs";
 })
 export class PostsComponent implements OnInit, AfterContentInit{
 
-  @Input() mode?: PostMode;
+  @Input() mode!: PostMode;
   userId: number = 0;
   @Input() onChange: BehaviorSubject<number> = new BehaviorSubject<number>(0)
+  @Input() postId!: number;
 
   popularMode: PostMode = PostMode.POPULAR
+  singleMode: PostMode = PostMode.SINGLE
 
   //@ts-ignore
   imagesUrl: string = window["cfgApiBaseUrl"] + "/api/images/";
@@ -33,7 +35,7 @@ export class PostsComponent implements OnInit, AfterContentInit{
 
   currentUser!: User;
 
-  prevUserId!: number;
+  currentUserLoaded: Subject<boolean> = new Subject<boolean>()
 
   isContentInit: boolean = false;
 
@@ -52,35 +54,35 @@ export class PostsComponent implements OnInit, AfterContentInit{
     this.authService.getCurrentUser().subscribe(
       data => {
         this.currentUser = data
-        this.prevUserId = this.userId;
+        this.currentUserLoaded.next(true)
       }
     )
+
     if(this.mode == PostMode.USER){
       // add post to posts array when user create new post
       this.postService.lastPost.subscribe(data => {
-        if(data.id){
-          setTimeout(() => {
-            data.createdDate = StaticMethods.formatToDate(data.createdDate)
+        setTimeout(() => {
+          data.createdDate = StaticMethods.formatToDate(data.createdDate)
 
-            if(data.images.length > 0)
+          if(data.images.length > 0){
+            if(!data.images[0].startsWith("http"))
               data.images = data.images.map(img => `${this.imagesUrl}${img}`)
+          }
 
-            this.posts.unshift(data)
-          }, 1000)
+          this.posts.unshift(data)
+        }, 1000)
+      })
 
-        }
+      // subscribe on subject that is triggered when profile page has changed to load posts for new user
+      this.currentUserLoaded.subscribe(res => {
+        this.onChange.subscribe(data => {
+          if(data != 0) {
+            this.userId = data
+            this.reset()
+          }
+        })
       })
     }
-
-    if(this.mode == PostMode.USER){
-      this.onChange.subscribe(data => {
-        if(data != 0) {
-          this.userId = data
-          this.reset()
-        }
-      })
-    }
-
   }
 
   ngAfterContentInit() {
@@ -88,8 +90,8 @@ export class PostsComponent implements OnInit, AfterContentInit{
       this.addPostsFeed()
     else if(this.mode == PostMode.POPULAR)
       this.getPostsPopular()
-    // else if(this.mode == PostMode.USER)
-    //   this.getPostsByUserId(this.userId)
+    else if(this.mode == PostMode.SINGLE)
+      this.getPostById(this.postId)
 
     setTimeout(() => {this.isContentInit = true}, 2000)
   }
@@ -99,14 +101,9 @@ export class PostsComponent implements OnInit, AfterContentInit{
     this.pageNumber = 0;
     this.totalPages = 0;
 
-    if(this.mode == PostMode.FEED)
-      this.addPostsFeed()
-    else if(this.mode == PostMode.POPULAR)
-      this.getPostsPopular()
-    else if(this.mode == PostMode.USER)
-      this.getPostsByUserId(this.userId)
+    this.getPostsByUserId(this.userId)
 
-    setTimeout(() => {this.isContentInit = true}, 2000)
+    //setTimeout(() => {this.isContentInit = true}, 2000)
   }
 
   checkAdmin(): boolean{
@@ -192,7 +189,7 @@ export class PostsComponent implements OnInit, AfterContentInit{
   }
 
   onScroll() {
-    if(this.pageNumber >= this.totalPages - 1){
+    if((this.pageNumber >= this.totalPages - 1) || this.mode == PostMode.SINGLE){
       //console.log("All elements was uploaded!")
     } else {
       this.pageNumber++;
@@ -202,7 +199,7 @@ export class PostsComponent implements OnInit, AfterContentInit{
       else if(this.mode == PostMode.POPULAR)
         this.getPostsPopular()
       else if(this.mode == PostMode.USER)
-        this.getPostsByUserId(this.userId)
+        this.getPostById(this.userId)
     }
   }
 
@@ -238,6 +235,38 @@ export class PostsComponent implements OnInit, AfterContentInit{
     this.posts[postIdx].poll.poll_total_votes++
   }
 
+  getPostById(postId: number){
+    this.postService.getPostById(postId).subscribe(data => {
+      data.createdDate = StaticMethods.formatToDate(data.createdDate)
+
+      if(data.images.length > 0)
+        data.images = data.images.map(img => `${this.imagesUrl}${img}`)
+
+      if(data.poll){
+        data.poll.poll_total_votes = 0;
+
+        data.poll.options.forEach(opt => {
+          data.poll.poll_total_votes += opt.votes.length
+          if(opt.votes.indexOf(this.currentUser.username) > -1)
+            data.poll.voted = true;
+
+        })
+      }
+
+      this.commentService.getCommentsByPostId(data.id).subscribe(
+        res => {
+          data.comments = res
+
+          for(let comm of data.comments)
+            comm.createdDate = StaticMethods.formatToDate(comm.createdDate)
+        },
+        err => {console.log(err)}
+      )
+
+      this.posts.push(data);
+    })
+  }
+
   addPostsFeed(){
     this.postService.getPostsFeedPaginate(this.pageNumber, this.pageSize).subscribe(
       data => {
@@ -247,9 +276,9 @@ export class PostsComponent implements OnInit, AfterContentInit{
 
           post.createdDate = StaticMethods.formatToDate(post.createdDate)
 
-          if(post.images.length > 0){
+          if(post.images.length > 0)
             post.images = post.images.map(img => `${this.imagesUrl}${img}`)
-          }
+
 
           if(post.poll){
             post.poll.poll_total_votes = 0;
@@ -290,9 +319,9 @@ export class PostsComponent implements OnInit, AfterContentInit{
 
           post.createdDate = StaticMethods.formatToDate(post.createdDate)
 
-          if(post.images.length > 0){
+          if(post.images.length > 0)
             post.images = post.images.map(img => `${this.imagesUrl}${img}`)
-          }
+
 
           if(post.poll){
             post.poll.poll_total_votes = 0;
@@ -333,9 +362,9 @@ export class PostsComponent implements OnInit, AfterContentInit{
 
           post.createdDate = StaticMethods.formatToDate(post.createdDate)
 
-          if(post.images.length > 0){
+          if(post.images.length > 0)
             post.images = post.images.map(img => `${this.imagesUrl}${img}`)
-          }
+
 
           if(post.poll){
             post.poll.poll_total_votes = 0;

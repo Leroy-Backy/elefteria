@@ -12,11 +12,20 @@
 <div class="col-12" *ngFor="let post of posts; let i = index" style="margin-bottom: 10px">
   <mat-card style="padding: 0">
 
-    <mat-card-title class="postHeader">
-      <a routerLink="/user/{{post.username}}" routerLinkActive="active">{{post.username}}</a>
 
-      <span style="padding-right: 10px; float: right; font-size: 17px; padding-top: 5px">{{post.createdDate | date:'dd-MM-yyyy HH:mm'}}</span>
-    </mat-card-title>
+    <div *ngIf="mode != singleMode; else singleModeElse">
+      <mat-card-title class="postHeader">
+        <a routerLink="/user/{{post.username}}" routerLinkActive="active">{{post.username}}</a>
+        <span style="padding-right: 10px; float: right; font-size: 17px; padding-top: 8px">{{post.createdDate | date:'dd-MM-yyyy HH:mm'}}</span>
+      </mat-card-title>
+    </div>
+
+    <ng-template #singleModeElse>
+      <mat-card-title class="postHeader">
+        <a routerLink="/user/{{post.username}}" routerLinkActive="active">{{post.username}}</a>
+        <span style="padding-right: 10px; float: right; font-size: 17px; padding-top: 2px">{{post.createdDate | date:'dd-MM-yyyy HH:mm'}}</span>
+      </mat-card-title>
+    </ng-template>
 
     <mat-card-title style="padding-left: 10px">
       {{post.title}}

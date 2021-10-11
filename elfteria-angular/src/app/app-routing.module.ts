@@ -11,8 +11,11 @@ import {RegistrationConfimComponent} from "./components/registration-confim/regi
 import {ChatComponent} from "./components/chat/chat.component";
 import {ChangePasswordComponent} from "./components/change-password/change-password.component";
 import {ChangePasswordConfirmComponent} from "./components/change-password-confirm/change-password-confirm.component";
+import {NotificationComponent} from "./components/notification/notification.component";
+import {ShowPostComponent} from "./components/show-post/show-post.component";
 
 const routes: Routes = [
+  {path: 'notifications', component: NotificationComponent, canActivate: [AuthGuard]},
   {path: 'changePassword', component: ChangePasswordComponent},
   {path: 'changePasswordConfirm/:token', component: ChangePasswordConfirmComponent},
   {path: 'register/confirm/:token', component: RegistrationConfimComponent},

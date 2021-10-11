@@ -32,6 +32,8 @@ import { ChangePasswordConfirmComponent } from './components/change-password-con
 import {ImageCropperModule} from "ngx-image-cropper";
 import {NgxSpinnerModule} from "ngx-spinner";
 import { PostsComponent } from './components/posts/posts.component';
+import { NotificationComponent } from './components/notification/notification.component';
+import { ShowPostComponent } from './components/show-post/show-post.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +54,9 @@ import { PostsComponent } from './components/posts/posts.component';
     ChatComponent,
     ChangePasswordComponent,
     ChangePasswordConfirmComponent,
-    PostsComponent
+    PostsComponent,
+    NotificationComponent,
+    ShowPostComponent
   ],
     imports: [
         BrowserModule,

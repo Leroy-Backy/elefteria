@@ -44,15 +44,18 @@ public class UserServiceImpl implements UserService{
     private UserRepository userRepository;
     private RoleRepository roleRepository;
     private RegistrationAndChangePasswordTokenRepository registrationAndChangePasswordTokenRepository;
+    private NotificationService notificationService;
+
     private JwtConfig jwtConfig;
     private PasswordEncoder passwordEncoder;
     private EmailSender emailSender;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, RegistrationAndChangePasswordTokenRepository registrationAndChangePasswordTokenRepository, JwtConfig jwtConfig, PasswordEncoder passwordEncoder, EmailSender emailSender) {
+    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, RegistrationAndChangePasswordTokenRepository registrationAndChangePasswordTokenRepository, NotificationService notificationService, JwtConfig jwtConfig, PasswordEncoder passwordEncoder, EmailSender emailSender) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.registrationAndChangePasswordTokenRepository = registrationAndChangePasswordTokenRepository;
+        this.notificationService = notificationService;
         this.jwtConfig = jwtConfig;
         this.passwordEncoder = passwordEncoder;
         this.emailSender = emailSender;
@@ -172,11 +175,6 @@ public class UserServiceImpl implements UserService{
         );
 
         registrationAndChangePasswordTokenRepository.save(registrationAndChangePasswordToken);
-
-        // send email
-//        String link = "http://localhost:8080/api/users/activateUser?token=" + token;
-
-        //String link = "http://localhost:4200/register/confirm/" + token;
 
         String link = mailLink + token;
 
@@ -353,6 +351,9 @@ public class UserServiceImpl implements UserService{
         userRepository.save(currentUser);
         userRepository.save(followedUser);
 
+        if(message.equals("followed"))
+            notificationService.createSubscribeNotification(currentUser, followedUser);
+
         SuccessResponse successResponse = new SuccessResponse(
                 HttpStatus.OK.value(),
                 "Successfully " + message,
@@ -361,6 +362,5 @@ public class UserServiceImpl implements UserService{
 
         return new ResponseEntity<>(successResponse, HttpStatus.OK);
     }
-
 
 }

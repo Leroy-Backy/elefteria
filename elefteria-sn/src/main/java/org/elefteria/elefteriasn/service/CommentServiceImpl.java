@@ -26,12 +26,14 @@ public class CommentServiceImpl implements CommentService{
     private PostRepository postRepository;
     private UserRepository userRepository;
     private CommentRepository commentRepository;
+    private NotificationService notificationService;
 
     @Autowired
-    public CommentServiceImpl(PostRepository postRepository, UserRepository userRepository, CommentRepository commentRepository) {
+    public CommentServiceImpl(PostRepository postRepository, UserRepository userRepository, CommentRepository commentRepository, NotificationService notificationService) {
         this.postRepository = postRepository;
         this.userRepository = userRepository;
         this.commentRepository = commentRepository;
+        this.notificationService = notificationService;
     }
 
     @Override
@@ -64,6 +66,8 @@ public class CommentServiceImpl implements CommentService{
         comment.setUser(user);
 
         commentRepository.save(comment);
+
+        notificationService.createCommentNotification(user, post, comment);
 
         SuccessResponse successResponse = new SuccessResponse(
                 HttpStatus.OK.value(),
