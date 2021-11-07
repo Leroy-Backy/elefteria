@@ -49,7 +49,7 @@ insert into user_info(first_name, last_name, status, avatar_id, created_date) va
 
 insert into user(username, password, email, user_info_id,
 is_account_non_expired, is_account_non_locked, is_credentials_non_expired, is_enabled) values
-('obamamonkey', '$2a$10$wYP2HIbnNmoh4XuywrFuWub7jZnY0mG/1X1XGoPIFllmnxAwAoDye', 'obama.monkey@gmail.com', 1, true, true, true, true),
+('bruh', '$2a$10$wYP2HIbnNmoh4XuywrFuWub7jZnY0mG/1X1XGoPIFllmnxAwAoDye', 'bruh@gmail.com', 1, true, true, true, true),
 ('mary', '$2a$10$8fAN.Xssl3v5LzITnd346u93dTbM6g3w2JvaiJ7HrVDVdx6BONluW', 'mary.white@yahoo.com', 2, true, true, true, true);
 
 insert into role(name) values ('USER'), ('ADMIN'); 

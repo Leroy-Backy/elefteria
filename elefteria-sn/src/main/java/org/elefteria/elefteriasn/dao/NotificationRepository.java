@@ -16,7 +16,7 @@ public interface NotificationRepository extends JpaRepository<Notification, Long
     @Modifying
     @Transactional
     @Query(nativeQuery = true,
-            value = "delete from notification n where id in( select id from (select id from notification where user_owner_id = (select id from user where username = ?1) and `read` = true order by created_date limit 99999 offset 10) n_temp)")
+            value = "delete from notification n where id in( select id from (select id from notification where user_owner_id = (select id from user where username = ?1) and `read` = true order by created_date desc limit 99999 offset 10) n_temp)")
     void deleteAllExceptFirstTenUnread(String username);
 
     List<Notification> findByOwnerUsernameOrderByCreatedDateAsc(String username);
