@@ -51,7 +51,7 @@ public class EmailSenderImpl implements EmailSender{
                 "    <div style=\"background-color: black; height: 50px; width: 100%; color: white; font-size: 30px; padding-top: 10px\">\n" +
                 "        Confirm your email</div>\n" +
                 "\n" +
-                "    <div style=\"margin-left: 100px; margin-right: 100px; background-color: aliceblue; height: 200px; text-align: left; padding: 10px\">\n" +
+                "    <div style=\"margin-left: 10px; margin-right: 10px; background-color: aliceblue; height: 200px; text-align: left; padding: 10px\">\n" +
                 "        <h3>Hello " + name + "</h3>\n" +
                 "\n" +
                 "        <div style=\"font-size: 18px; font-weight: bold\">\n" +
@@ -67,7 +67,7 @@ public class EmailSenderImpl implements EmailSender{
                 "    <div style=\"background-color: black; height: 50px; width: 100%; color: white; font-size: 30px; padding-top: 10px\">\n" +
                 "        Change your password</div>\n" +
                 "\n" +
-                "    <div style=\"margin-left: 100px; margin-right: 100px; background-color: aliceblue; height: 200px; text-align: left; padding: 10px\">\n" +
+                "    <div style=\"margin-left: 10px; margin-right: 10px; background-color: aliceblue; height: 200px; text-align: left; padding: 10px\">\n" +
                 "        <h3>Hello " + name + "</h3>\n" +
                 "\n" +
                 "        <div style=\"font-size: 18px; font-weight: bold\">\n" +

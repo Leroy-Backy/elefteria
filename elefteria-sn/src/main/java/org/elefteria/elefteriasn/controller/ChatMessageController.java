@@ -26,14 +26,8 @@ public class ChatMessageController {
 
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER', 'ROLE_CITIZEN')")
     @GetMapping()
-    public Page<ChatMessageDto> getAllMessages(@RequestParam(required = false, name = "page") Integer page,
-                                               @RequestParam(required = false, name = "size") Integer size){
-
-        if(page == null)
-            page = 0;
-
-        if(size == null)
-            size = 40;
+    public Page<ChatMessageDto> getAllMessages(@RequestParam(required = false, name = "page", defaultValue = "0") Integer page,
+                                               @RequestParam(required = false, name = "size", defaultValue = "40") Integer size){
 
         Pageable pageable = PageRequest.of(page, size);
 

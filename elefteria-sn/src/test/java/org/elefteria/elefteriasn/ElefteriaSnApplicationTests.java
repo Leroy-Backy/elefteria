@@ -25,17 +25,17 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class ElefteriaSnApplicationTests {
 
-//	@LocalServerPort
-//	private int port;
-//
-//	@Autowired
-//	private UserController userController;
-//
-//	@Autowired
-//	private TestRestTemplate  restTemplate;
-//
-//	private String jwtToken = "Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJvYmFtYW1vbmtleSIsImF1dGhvcml0aWVzIjpbeyJhdXRob3JpdHkiOiJST0xFX1VTRVIifV0sImlhdCI6MTYzMzM3MzQ3NCwiZXhwIjoxNjMzNzMwNDAwfQ.GL_7WLd63l_ERrpl4mEdtWJQRbcGMXIo13FaAaufIm7W1SAgkPpT-6zQRXvXL9SH";
-//
+	@LocalServerPort
+	private int port;
+
+	@Autowired
+	private UserController userController;
+
+	@Autowired
+	private TestRestTemplate  restTemplate;
+
+	private String jwtToken = "Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJvYmFtYW1vbmtleSIsImF1dGhvcml0aWVzIjpbeyJhdXRob3JpdHkiOiJST0xFX1VTRVIifV0sImlhdCI6MTYzMzM3MzQ3NCwiZXhwIjoxNjMzNzMwNDAwfQ.GL_7WLd63l_ERrpl4mEdtWJQRbcGMXIo13FaAaufIm7W1SAgkPpT-6zQRXvXL9SH";
+
 //	@Test
 //	void contextLoads() {
 //		assertThat(userController).isNotNull();
@@ -43,7 +43,7 @@ class ElefteriaSnApplicationTests {
 //
 //	@Test
 //	void login() throws JsonProcessingException {
-//		UsernameAndPasswordRequest usernameAndPasswordRequest = new UsernameAndPasswordRequest("obamamonkey", "obama");
+//		UsernameAndPasswordRequest usernameAndPasswordRequest = new UsernameAndPasswordRequest("mary", "mary");
 //
 //		String requestBody = new ObjectMapper().writeValueAsString(usernameAndPasswordRequest);
 //

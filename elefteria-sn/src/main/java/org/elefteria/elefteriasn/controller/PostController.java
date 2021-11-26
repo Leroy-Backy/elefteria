@@ -39,14 +39,8 @@ public class PostController {
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER', 'ROLE_CITIZEN')")
     @GetMapping("/user/{userId}")
     public Page<PostDto> getPostsByUserId(@PathVariable("userId") Long userId,
-                                          @RequestParam(required = false, name = "page") Integer page,
-                                          @RequestParam(required = false, name = "size") Integer size){
-
-        if(page == null)
-            page = 0;
-
-        if(size == null)
-            size = 10;
+                                          @RequestParam(required = false, name = "page", defaultValue = "0") Integer page,
+                                          @RequestParam(required = false, name = "size", defaultValue = "10") Integer size){
 
         Pageable pageable = PageRequest.of(page, size);
 
@@ -55,14 +49,8 @@ public class PostController {
 
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER', 'ROLE_CITIZEN')")
     @GetMapping("/feed")
-    public Page<PostDto> getPostsFeed( @RequestParam(required = false, name = "page") Integer page,
-                                       @RequestParam(required = false, name = "size") Integer size ){
-
-        if(page == null)
-            page = 0;
-
-        if(size == null)
-            size = 20;
+    public Page<PostDto> getPostsFeed( @RequestParam(required = false, name = "page", defaultValue = "0") Integer page,
+                                       @RequestParam(required = false, name = "size", defaultValue = "20") Integer size ){
 
         Pageable pageable = PageRequest.of(page, size);
 
@@ -83,14 +71,8 @@ public class PostController {
 
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER', 'ROLE_CITIZEN')")
     @GetMapping("/popular")
-    public Page<PostDto> getMostPopularPosts(@RequestParam(required = false, name = "page") Integer page,
-                                             @RequestParam(required = false, name = "size") Integer size){
-        if(page == null)
-            page = 0;
-
-        if(size == null)
-            size = 12;
-
+    public Page<PostDto> getMostPopularPosts(@RequestParam(required = false, name = "page", defaultValue = "0") Integer page,
+                                             @RequestParam(required = false, name = "size", defaultValue = "12") Integer size){
 
         Pageable pageable = PageRequest.of(page, size);
 

@@ -30,12 +30,8 @@ public class UserController {
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER', 'ROLE_CITIZEN')")
     @GetMapping("/search")
     public Page<UserDto> searchUsersByName(@RequestParam("keyword") String keyword,
-                                           @RequestParam(required = false, name = "page") Integer page,
-                                           @RequestParam(required = false, name = "size") Integer size){
-        if(size == null)
-            size = 20;
-        if(page == null)
-            page = 0;
+                                           @RequestParam(required = false, name = "page", defaultValue = "0") Integer page,
+                                           @RequestParam(required = false, name = "size", defaultValue = "20") Integer size){
 
         Pageable pageable = PageRequest.of(page, size);
 
@@ -44,7 +40,8 @@ public class UserController {
 
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER', 'ROLE_CITIZEN')")
     @GetMapping
-    public Page<UserDto> getUsers(@RequestParam(required = false, name = "page") Integer page, @RequestParam(required = false, name = "size") Integer size){
+    public Page<UserDto> getUsers(@RequestParam(required = false, name = "page", defaultValue = "0") Integer page,
+                                  @RequestParam(required = false, name = "size", defaultValue = "10") Integer size){
         if(page == null)
             page = 0;
 
@@ -109,12 +106,8 @@ public class UserController {
     @GetMapping("/{userId}/followers")
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER', 'ROLE_CITIZEN')")
     public Page<UserDto> getFollowersByUserId(@PathVariable("userId") Long userId,
-                                              @RequestParam(required = false, name = "size") Integer size,
-                                              @RequestParam(required = false, name = "page") Integer page){
-        if(size == null)
-            size = 30;
-        if(page == null)
-            page = 0;
+                                              @RequestParam(required = false, name = "size", defaultValue = "30") Integer size,
+                                              @RequestParam(required = false, name = "page", defaultValue = "0") Integer page){
 
         Pageable pageable = PageRequest.of(page, size);
 
@@ -124,12 +117,8 @@ public class UserController {
     @GetMapping("/{userId}/follows")
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER', 'ROLE_CITIZEN')")
     public Page<UserDto> getFollowsByUserId(@PathVariable("userId") Long userId,
-                                              @RequestParam(required = false, name = "size") Integer size,
-                                              @RequestParam(required = false, name = "page") Integer page){
-        if(size == null)
-            size = 30;
-        if(page == null)
-            page = 0;
+                                              @RequestParam(required = false, name = "size", defaultValue = "30") Integer size,
+                                              @RequestParam(required = false, name = "page", defaultValue = "0") Integer page){
 
         Pageable pageable = PageRequest.of(page, size);
 

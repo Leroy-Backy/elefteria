@@ -1,6 +1,5 @@
 package org.elefteria.elefteriasn.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.elefteria.elefteriasn.entity.Notification;
