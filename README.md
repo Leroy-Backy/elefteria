@@ -1,7 +1,7 @@
 # elefteria
 Simple social network on java and angular
 
-http://elefteria.cc
+https://elefteria.cc
 
 Simple Social network. There is jwt token authentication, you can create posts, comment and like another user's posts.
 You can follow another user and see his new posts in your feed. Alse there is simple public chat that works with web socket and popular section 
