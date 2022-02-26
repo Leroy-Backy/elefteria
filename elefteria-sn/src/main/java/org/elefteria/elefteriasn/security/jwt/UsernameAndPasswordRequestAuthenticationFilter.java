@@ -81,7 +81,7 @@ public class UsernameAndPasswordRequestAuthenticationFilter extends UsernamePass
         // Put token into header
         response.addHeader(jwtConfig.getAuthorizationHeader(), jwtConfig.getTokenPrefix() + token);
 
-        response.setHeader("Username", authResult.getName());
-        response.addHeader("Access-Control-Expose-Headers", "Username");
+//        response.setHeader("Username", authResult.getName());
+//        response.addHeader("Access-Control-Expose-Headers", "Username");
     }
 }
