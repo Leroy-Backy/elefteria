@@ -41,12 +41,7 @@ public class UserController {
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER', 'ROLE_CITIZEN')")
     @GetMapping
     public Page<UserDto> getUsers(@RequestParam(required = false, name = "page", defaultValue = "0") Integer page,
-                                  @RequestParam(required = false, name = "size", defaultValue = "10") Integer size){
-        if(page == null)
-            page = 0;
-
-        if(size == null)
-            size = 10;
+                                  @RequestParam(required = false, name = "size", defaultValue = "10") Integer size) {
 
         return userService.getUsers(page, size);
     }

@@ -14,9 +14,13 @@ export class HeaderComponent implements OnInit {
   unreadNotifications: number = 0;
 
   ngOnInit(): void {
-    this.notificationService.getAmountOfUnreadNotifications().subscribe(data => {
-      this.unreadNotifications = data;
-    }, err => {console.log(err)})
+    if(this.loggedIn()) {
+      this.notificationService.getAmountOfUnreadNotifications().subscribe(data => {
+        this.unreadNotifications = data;
+      }, err => {
+        console.log(err)
+      })
+    }
   }
 
   loggedIn(): boolean{
